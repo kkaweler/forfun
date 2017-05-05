@@ -1,0 +1,28 @@
+.task .image-container img {
+    width: 100%;
+}
+.task .image-container {
+    text-align: center
+}
+
+.task .panel-heading-line .glyphicon {
+    top: 0px;
+    left: 1px;
+}
+.task .panel-heading-line .info{
+    width: 80%;
+}
+
+.task .panel-heading-line {
+    line-height: 26px;
+    margin-bottom: 0;
+    min-height: 0;
+}
+
+.task .panel-heading-line div {
+    display: inline-block;
+}
+
+#oldImage {
+    width: 100%;
+}

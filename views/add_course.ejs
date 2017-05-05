@@ -1,0 +1,93 @@
+<script type="text/javascript" src="/js/form.js"></script>
+<form action="/main/save_course" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="teacherid" value="<%= session.userID; %>">
+    <div class="container col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label for="imageInput">Выберите картинку</label>
+            <input id="imageInput" type="file" name="image" accept="image/jpeg,image/png,image/gif">
+        </div>
+        <div class="form-group">
+            <label for="usernameInput">Тема</label>
+            <input class="form-control" id="usernameInput" type="text" name="theme">
+        </div>
+        <div class="form-group">
+            <label for="emailInput">Тип</label>
+            <select class="form-control" name="type">
+                <% data.types.forEach(function(item){ %>
+                <option value="<%= item.ID %>"><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="maxstudentsInput">Число учеников</label>
+            <input class="form-control" id="maxstudentsInput" type="number" min="1" data-bind="value:replyNumber" name="maxstudents">
+        </div>
+
+        <div class="form-group" id="country">
+            <label for="emailInput">Страна</label>
+            <select class="form-control" name="countryid">
+                <option value="null">---</option>
+                <% data.countries.forEach(function(item){ %>
+                <option value="<%= item.ID %>"><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group" id="region" style="display:none;">
+            <label for="emailInput">Регион</label>
+            <select class="form-control" name="regionid">
+            </select>
+        </div>
+
+        <div class="form-group" id="city" style="display:none;">
+            <label for="emailInput">Город</label>
+            <select class="form-control" name="cityid">
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="usernameInput">Адрес</label>
+            <input class="form-control" type="text" name="adress">
+        </div>
+
+        <div class="form-group">
+            <label for="taskInput">Описание</label>
+            <textarea class="form-control" id="taskInput" type="text" name="description" rows="10"></textarea>
+        </div>
+
+        <input type="submit" class="btn btn-success">
+
+        <div class="btn btn-default pull-right" id="showPreview" style="display: none">Певью</div>
+    </div>
+</form>
+<div id="preview" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Превью</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default task">
+                    <div class="panel-heading">
+                        <div class="panel-heading-line">
+                            style="height:30px; line-height: 26px; margin-bottom: 0; min-height: 0;">
+                            <div class="nav navbar-nav">От <span id="preview-username"></span> <span
+                                        id="preview-email"></span></div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p class="image-container">
+                            <img id="preview-image">
+                        </p>
+
+                        <p class="well" id="preview-task">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/js/preview.js"></script>

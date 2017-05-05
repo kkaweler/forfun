@@ -1,0 +1,108 @@
+<script type="text/javascript" src="/js/form.js"></script>
+<form action="/main/update_course/<%= data.course.ID %>" method="post" enctype="multipart/form-data">
+    <div class="container col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <% if (data.course.Image){ %>
+            <img id="oldImage" src="/images/uploads/<%= data.course.Image %>">
+            <% } %>
+        </div>
+
+        <div class="form-group">
+            <label for="imageInput">Выберите картинку</label>
+            <input id="imageInput" type="file" name="image" accept="image/jpeg,image/png,image/gif">
+        </div>
+        <div class="form-group">
+            <label for="usernameInput">Тема</label>
+            <input class="form-control" id="usernameInput" type="text" name="theme" value="<%= data.course.Theme %>">
+        </div>
+        <div class="form-group">
+            <label for="emailInput">Тип</label>
+            <select class="form-control" name="type">
+                <% data.types.forEach(function(item){ %>
+                <option value="<%= item.ID %>" <%= data.course.Type == item.ID ? 'selected' : '' %> ><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="maxstudentsInput">Число учеников</label>
+            <input class="form-control" id="maxstudentsInput" type="number" min="1" data-bind="value:replyNumber"
+                   name="maxstudents" value="<%= data.course.MaxStudents %>">
+        </div>
+
+        <div class="form-group" id="country">
+            <label for="emailInput">Страна</label>
+            <select class="form-control" name="countryid">
+                <option value="null">---</option>
+                <% data.countries.forEach(function(item){ %>
+                <option value="<%= item.ID %>" <%= data.course.CountryID == item.ID ? 'selected' : '' %> ><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group" id="region" <%- data.course.CountryID == null ? 'style="display: none;"' : '' %> >
+            <label for="emailInput">Регион</label>
+            <select class="form-control" name="regionid">
+                <option value="null">---</option>
+                <% data.regions.forEach(function(item){ %>
+                <option value="<%= item.ID %>" <%= data.course.RegionID == item.ID ? 'selected' : '' %> ><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group" id="city" <%- data.course.RegionID == null ? 'style="display: none;"' : '' %> >
+            <label for="emailInput">Город</label>
+            <select class="form-control" name="cityid">
+                <option>---</option>
+                <% data.cities.forEach(function(item){ %>
+                <option value="<%= item.ID %>" <%= data.course.CityID == item.ID ? 'selected' : '' %> ><%= item.Name %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="usernameInput">Адрес</label>
+            <input class="form-control" type="text" name="adress" value="<%= data.course.Adress %>">
+        </div>
+
+        <div class="form-group">
+            <label for="taskInput">Описание</label>
+            <textarea class="form-control" id="taskInput" type="text" name="description"
+                      rows="10"><%= data.course.Description %></textarea>
+        </div>
+
+        <input type="submit" class="btn btn-default">
+
+        <div class="btn btn-default pull-right" id="showPreview" style="display: none">Певью</div>
+    </div>
+</form>
+<div id="preview" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Превью</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default task">
+                    <div class="panel-heading">
+                        <div class="panel-heading-line">
+                            style="height:30px; line-height: 26px; margin-bottom: 0; min-height: 0;">
+                            <div class="nav navbar-nav">От <span id="preview-username"></span> <span
+                                        id="preview-email"></span></div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <p class="image-container">
+                            <img id="preview-image">
+                        </p>
+
+                        <p class="well" id="preview-task">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/js/preview.js"></script>

@@ -1,0 +1,82 @@
+<% if (requests.length > 0) { %>
+<div class="row">
+    <% requests.forEach(function(item) { %>
+    <div class="col-md-4">
+        <div class="panel panel-default task">
+            <div class="panel-heading">
+                <div class="panel-heading-line">
+                    <div>
+                        <span>От <a href="/user/<%= item.UserID %>"><%= item.FirstName %> <%= item.LastName %></a> </span>
+                        на <span><%= item.Theme %></span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <%= item.Description ? item.Description : ''; %>
+            </div>
+            <form method="post" action="/main/confirm/<%= item.ID %>" style="margin-bottom: 0;">
+                <div class="panel-footer">
+                    <input type="submit" value="Подтвердить" class="btn btn-success ">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Отклонить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<% if(session.logined){ %>
+<div id="apply" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Подать заявку</h4>
+            </div>
+            <form method="post" action="/main/apply" class="form-horizontal">
+
+                <div class="modal-body">
+                    <input type="hidden" name="courseID" id="applyID">
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="taskInput">Описание</label>
+                            <textarea class="form-control" id="taskInput" type="text" name="description" rows="5">tetsetset</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="Подать" class="btn btn-success ">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="dismiss" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Отменить заявку</h4>
+            </div>
+            <form method="post" action="/main/dismiss" class="form-horizontal">
+                <input type="hidden" name="courseID" id="dismissID">
+
+                <div class="modal-body">
+                    Вы уверены?
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" value="Да" class="btn btn-success ">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<% } %>
+<% } %>
