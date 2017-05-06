@@ -15,5 +15,9 @@ $(document).ready(function () {
     $('.dismiss-button').on('click', function () {
         var data = $(this).data();
         $("#dismissID").val(data.dismissTo);
+    })
+    $('.button-comment').on('click', function () {
+        var data = $(this).data();
+        $("#commentToID").val(data.commentTo);
     });
 });

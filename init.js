@@ -1,4 +1,5 @@
 var md5 = require('md5');
+var dateTime = require('node-datetime');
 let path = require('path');
 
 let main_model = require('./models/main_model');
@@ -53,6 +54,7 @@ app.get('/main/course/:id', function (req, res) {
         if (data) {
             res.render(__dirname + '/views/course.ejs', {
                 item: data.course,
+                comments: data.comments,
                 requests: data.requests,
                 session: req.session
             }, function (err, html) {
@@ -235,6 +237,17 @@ app.post('/auth/register', function (req, res) {
                 req.session.userType = 2;
                 req.session.save();
             }
+            res.redirect('back');
+        });
+    }
+});
+
+app.post('/main/add_comment', function (req, res) {
+    if (req.session.logined) {
+        let table = req.body.to;
+        delete req.body.to;
+        req.body.SenderID = req.session.userID;
+        main_model.AddComment(table, req.body, function () {
             res.redirect('back');
         });
     }

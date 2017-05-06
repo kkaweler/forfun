@@ -112,18 +112,23 @@ class model {
                 if (err) throw err;
                 if (result) {
                     let data = {course: result[0], requests: []};
-                    if (session.logined) {
-                        sql = squel.select().field('CourseID').from('requests').where('UserID = ?', session.userID);
-                        db.query(sql.toString(), function (err, rows) {
-                            if (err) throw err;
-                            if (rows.length) {
-                                for (let index in rows) {
-                                    data.requests.push(rows[index].CourseID);
+                    sql = squel.select().from('course_comment').where('CourseID = ?', id);
+                    db.query(sql.toString(), function (err, rows) {
+                        if (err) throw err;
+                        if (rows) data.comments = rows;
+                        if (session.logined) {
+                            sql = squel.select().field('CourseID').from('requests').where('UserID = ?', session.userID);
+                            db.query(sql.toString(), function (err, rows) {
+                                if (err) throw err;
+                                if (rows.length) {
+                                    for (let index in rows) {
+                                        data.requests.push(rows[index].CourseID);
+                                    }
                                 }
-                            }
-                            callback(data);
-                        });
-                    } else callback(data);
+                                callback(data);
+                            });
+                        } else callback(data);
+                    });
                 } else callback(false);
             });
 
@@ -339,6 +344,22 @@ class model {
                         callback(true);
                     });
                 } else callback(false);
+            });
+
+        } catch (err) {
+            console.log(err);
+            callback(false);
+        }
+    }
+
+    AddComment(table, data, callback) {
+        try {
+            data.date = dateTime.create().format('Y-m-d H:M:S');
+            let sql = squel.insert().into('comments_' + table);
+            SetRows(sql, data);
+            db.query(sql.toString(), function (err) {
+                if (err) throw err;
+                callback(true);
             });
 
         } catch (err) {
